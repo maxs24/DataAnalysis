@@ -20,6 +20,8 @@ def proc_data(data_csv):
     summ = 0
 
     sorted_data_csv = data_csv.sort_values(by=["APPLICATION_DT"])
+
+    # Создание словаря по датам и точкам из входных данных
     for row in sorted_data_csv.itertuples():
         date = datetime.strptime(row[INDEX_DT], "%Y-%m-%d %H:%M:%S")
         pos = int(row[INDEX_POS])
@@ -38,6 +40,7 @@ def proc_data(data_csv):
         else:
             data_dict[date][pos][0] += amount
 
+    # Задание процентов в словаре
     for key, value in data_dict.items():
         for position in set_pos:
             if position not in value:
@@ -56,6 +59,7 @@ def value_to_name_column(value, percent=False):
         return str(value)
 
 
+# Создание датафрейма из словаря для дальнейшего экспорта в файл csv
 def view_data(dict_data, list_positions):
     dict_for_dataframe = dict()
     dict_for_dataframe["Date"] = []
